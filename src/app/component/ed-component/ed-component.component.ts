@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DecryptService } from 'src/app/services/decryptService';
 import { EncryptService } from 'src/app/services/encryptService';
+import * as fs from 'file-saver';
+import { ToastrService } from 'src/app/services/toastService';
 
 @Component({
   selector: 'app-ed-component',
@@ -8,13 +10,45 @@ import { EncryptService } from 'src/app/services/encryptService';
   styleUrls: ['./ed-component.component.scss']
 })
 export class EdComponentComponent implements OnInit {
+  dataInput: any;
+  cipherText: string;
+
   constructor(private encryptService: EncryptService,
-              private decryptService: DecryptService
+              private decryptService: DecryptService,
+              private toastrService: ToastrService
     ) { }
 
   ngOnInit(): void {
     
-    
+
+  }
+
+  handleFileInput(files: FileList) {
+    let file = files[0];
+    let fileReader: FileReader = new FileReader();
+    fileReader.onload = () => {
+      this.dataInput = fileReader.result;
+    }
+    fileReader.readAsText(file);
+  }
+
+  handleFileExport() {
+    if (this.cipherText) {
+      const data = this.cipherText;
+      var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+      fs.saveAs(blob, "text.txt");
+    } else {
+      this.toastrService.showToast('warning','Warning!', 'Not output data');
+    }
+  }
+
+  onConfirm() {
+    if (this.dataInput) {
+      this.cipherText = this.encryptService.encryptCeasar(2, this.dataInput);
+      this.toastrService.showToast('success', 'Success!', '');
+    } else {
+      this.toastrService.showToast('warning','Warning!', 'Not input data');
+    }
   }
 
   test () {

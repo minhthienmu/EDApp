@@ -12,9 +12,9 @@ export class DecryptService {
         ) {}
 
     decryptCeasarWithoutKey(cipherText: string) {
+        //Lấy list key có khả năng nhất dựa trên top10commonletter từ hàm analysisLetter
         let listKey = this.analysisService.analysisLetter(cipherText);
 
-        //Lấy list key có khả năng nhất dựa trên top10commonletter
         let listPlainText: any[] = [];
         listKey.forEach(key => {
             listPlainText.push({key: key, plainText: this.decryptCeasar(key, cipherText)});

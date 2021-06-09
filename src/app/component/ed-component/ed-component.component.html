@@ -1,1 +1,14 @@
-<p>ed-component works!</p>
+<div class="form-group">
+    <label for="file">Choose File</label>
+    <input
+        nbInput type="file" (change)="handleFileInput($event.target.files)">
+</div>
+<p>
+    {{ dataInput }}
+</p>
+<p>
+    <button nbButton status="success" (click)="onConfirm()">Confirm</button>
+</p>
+<p>
+    <button nbButton status="success" (click)="handleFileExport()">Export</button>
+</p>

@@ -6,7 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { 
   NbThemeModule, 
   NbLayoutModule,
-  NbToastrModule
+  NbToastrModule,
+  NbButtonModule
  } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +26,7 @@ import { EdComponentComponent } from './component/ed-component/ed-component.comp
     NbThemeModule.forRoot({ name: 'default' }),
     NbToastrModule.forRoot(),
     NbLayoutModule,
+    NbButtonModule,
     NbEvaIconsModule,
     AppRoutingModule
   ],
