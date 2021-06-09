@@ -51,11 +51,34 @@ export class AnalysisService {
             let word_count = str.match(regex);
             let count = word_count ? word_count.length : 0;
             score += count;
-        })
+        });
 
         //return tổng số điểm của plaintext
         //với top10commonword, mỗi lần xuất hiện của từng từ thì được + 1 điểm.
         return score;
+    }
+
+    findBestKeyandPlaintText(listPlainText: any[]) {  //Tìm plaintext tốt nhất dựa trên top10commonword
+        let bestScore: number = 0;
+        let bestPlainText: string = "";
+        let bestKey: number = 0;
+
+        listPlainText.forEach(element => {
+            let score = this.analysisWord(element.plainText);
+            if (score > bestScore) {
+                bestScore = score;
+                bestPlainText = element.plainText;
+                bestKey = element.key;
+            }
+        })
+
+        let result = {
+            score: bestScore,
+            key: bestKey,
+            plainText: bestPlainText
+        }
+
+        return result;
     }
 
     
