@@ -52,7 +52,7 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <nb-checkbox formControlName="has_key"> <label class="label" for="input-encryption-type">Key:</label></nb-checkbox>
+                            <label class="label" for="input-encryption-type">Key:</label>
                             <div *ngIf="form.get('form2').get('has_key').value">
                                 <input type="number" nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;">
                             </div>
