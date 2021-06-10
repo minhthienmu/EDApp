@@ -1,0 +1,19 @@
+@media (min-width: 1080px) { 
+    .card-row {
+        display: flex;
+        margin: 0 -0.5rem;
+    }
+      
+    .card-col {
+        flex: 1 0;
+        margin: 0 0.5rem;
+    }
+
+    .card-col.tab {
+        max-width: 26%;
+    }
+}
+
+.btn-confirm {
+    text-align: center;
+}
