@@ -1,14 +1,119 @@
-<div class="form-group">
-    <label for="file">Choose File</label>
-    <input
-        nbInput type="file" (change)="handleFileInput($event.target.files)">
-</div>
-<p>
-    {{ dataInput }}
-</p>
-<p>
-    <button nbButton status="success" (click)="onConfirm()">Confirm</button>
-</p>
-<p>
-    <button nbButton status="success" (click)="handleFileExport()">Export</button>
-</p>
+<form [formGroup]="form">
+    <div class="card-row">
+        <div class="card-col" formGroupName="form1">
+            <nb-card accent="primary">
+              <nb-card-header>
+                  <span>{{ form.get('form1').get('name').value }}</span>
+              </nb-card-header>
+              <nb-card-body>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="label" for="input-inputType">Input Type:</label>
+                        <nb-select fullWidth formControlName="inputType" name="inputType" 
+                        id="input-inputType">
+                            <nb-option *ngFor="let type of inputTypeList" [value]="type.value">
+                                {{ type.name }}</nb-option>
+                        </nb-select>
+                    </div>
+                </div>
+                <div [ngSwitch]="form.get('form1').get('inputType').value">
+                    <div class="row" *ngSwitchCase="1">
+                        <div class="form-group">
+                            <label class="label" for="input-text">Text:</label>
+                            <textarea class="form-control" style="height: 270px" nbInput fullWidth formControlName="text" name="text" id="input-text"></textarea>
+                        </div>
+                    </div>
+                    <div class="row" *ngSwitchCase="2">
+                        <div class="form-group">
+                            <label class="label" for="input-file">File:</label>
+                            <input class="form-control" nbInput fullWidth type="file" formControlName="file" (change)="handleFileInput($event.target.files)">
+                        </div>
+                    </div>
+                </div>
+              </nb-card-body>
+              <nb-card-footer>
+                  <span><label class="label" for="input-number-letter">{{form.get('form1').get('numberLetter').value}} chars</label></span>
+              </nb-card-footer>
+            </nb-card>
+          </div>
+          <div class="card-col tab" formGroupName="form2">
+            <nb-card accent="primary"> 
+              <nb-tabset fullWidth (changeTab)="onChangeTab($event)">
+                  <nb-tab  tabTitle="Encrypt">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="label" for="input-encryption-type">Encryption Type:</label>
+                            <nb-select fullWidth formControlName="encryptionType" name="encryptionType" 
+                            id="input-encryptionType" (selectedChange)="onChangeEncryptionType($event)">
+                                <nb-option *ngFor="let type of encryptionList" [value]="type.value">
+                                    {{ type.name }}</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <nb-checkbox formControlName="has_key"> <label class="label" for="input-encryption-type">Key:</label></nb-checkbox>
+                            <div *ngIf="form.get('form2').get('has_key').value">
+                                <input type="number" nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;">
+                            </div>
+                        </div>
+                    </div>
+                  </nb-tab>
+                  <nb-tab tabTitle="Decrypt">
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="label" for="input-encryption-type">Encryption Type:</label>
+                            <nb-select fullWidth formControlName="encryptionType" name="encryptionType" 
+                            id="input-encryptionType" (selectedChange)="onChangeEncryptionType($event)">
+                                <nb-option *ngFor="let type of encryptionList" [value]="type.value">
+                                    {{ type.name }}</nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <nb-checkbox formControlName="has_key"> <label class="label" for="input-encryption-type">Key:</label></nb-checkbox>
+                            <div *ngIf="form.get('form2').get('has_key').value">
+                                <input type="number" nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;">
+                            </div>
+                        </div>
+                    </div>
+                  </nb-tab>
+              </nb-tabset>
+              <nb-card-footer>
+                  <div class="btn-confirm">
+                      <button nbButton status="primary" (click)="onConfirm()" [disabled]="!dataInput || (form.get('form2').get('has_key').value&&form.get('form2').get('key').value==='')">Confirm</button>
+                  </div>
+              </nb-card-footer>
+            </nb-card>
+          </div>
+          <div class="card-col" formGroupName="form3">
+            <nb-card accent="primary">
+              <nb-card-header>
+                <span>{{ form.get('form3').get('name').value }}</span>
+              </nb-card-header>
+              <nb-card-body>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="label" for="input-key-output">Key:</label>
+                        <input nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <nb-checkbox formControlName="show_text"> <label class="label" for="input-show_text">Text:</label></nb-checkbox>
+                        <div *ngIf="form.get('form3').get('show_text').value">
+                            <textarea style="height: 270px" nbInput fullWidth formControlName="text" autocomplete="off" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+              </nb-card-body>
+              <nb-card-footer>
+                  <div style="text-align: center">
+                    <button nbButton outline status="primary" [disabled]="!dataOutput" (click)="handleFileExport()"><nb-icon icon="download-outline"></nb-icon></button>
+                  </div>
+              </nb-card-footer>
+            </nb-card>
+          </div>
+    </div>
+</form>
