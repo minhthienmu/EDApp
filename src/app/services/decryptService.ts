@@ -108,17 +108,42 @@ export class DecryptService {
         //phân tích bằng hàm findBestKeyandPlainText để tìm bản rõ tốt nhất.
         let listPlainText: any[] = [];
         for (let i = 2; i <= 25; i++) {
-            let plainText = this.decryptCombine(i, cipherText);
-            listPlainText.push({key: i, plainText: plainText});
+            let plainTextRail = this.decryptRailFence(i, cipherText);
+            let result_ceasar = this.decryptCeasarWithoutKey(plainTextRail);
+            listPlainText.push({
+                key_rail: i,
+                key: result_ceasar.key,
+                score: result_ceasar.score,
+                plainText: result_ceasar.plainText
+            });
         }
+        
+        let bestScore: number = 0;
+        let bestPlainText: string = "";
+        let bestKey: number = 0;
+        let bestKeyRail: number = 0;
 
-        let result = this.analysisService.findBestKeyandPlaintText(listPlainText);
+        listPlainText.forEach(element => {
+            let score = element.score;
+            if (score > bestScore) {
+                bestScore = score;
+                bestPlainText = element.plainText;
+                bestKey = element.key;
+                bestKeyRail = element.key_rail;
+            }
+        })
+
+        let result = {
+            key: bestKey,
+            key_rail: bestKeyRail,
+            plainText: bestPlainText 
+        }
 
         return result;
     }
 
-    decryptCombine(key: number, cipherText: string): string { //Giải Rail Fence => Ceasar
-        let plaintextRailFence = this.decryptRailFence(key, cipherText);
+    decryptCombine(key: number, key_rail: number, cipherText: string): string { //Giải Rail Fence => Ceasar
+        let plaintextRailFence = this.decryptRailFence(key_rail, cipherText);
         let plaintext = this.decryptCeasar(key, plaintextRailFence);
 
         return plaintext;

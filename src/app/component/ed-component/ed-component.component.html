@@ -50,14 +50,35 @@
                             </nb-select>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <label class="label" for="input-encryption-type">Key:</label>
-                            <div *ngIf="form.get('form2').get('has_key').value">
-                                <input type="number" nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;">
+                    <div [ngSwitch]="encryptionType">
+                        <div *ngSwitchCase='3'>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="label" for="input-encryption-type">Key Ceasar:</label>
+                                    <div>
+                                        <input type="number" nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group">
+                                    <label class="label" for="input-encryption-type-1">Key Rail Fence:</label>
+                                    <div>
+                                        <input type="number" nbInput fullWidth formControlName="key_rail" autocomplete="off" style="text-align: center;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngSwitchDefault>
+                            <div class="form-group">
+                                <label class="label" for="input-encryption-type">Key:</label>
+                                <div>
+                                    <input type="number" nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;">
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
                   </nb-tab>
                   <nb-tab tabTitle="Decrypt">
                     <div class="row">
@@ -93,10 +114,28 @@
                 <span>{{ form.get('form3').get('name').value }}</span>
               </nb-card-header>
               <nb-card-body>
-                <div class="row">
-                    <div class="form-group">
-                        <label class="label" for="input-key-output">Key:</label>
-                        <input nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;" readonly>
+                <div *ngIf="type==='Decrypt'" [ngSwitch]="encryptionType">
+                    <div *ngSwitchCase='3'>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="label" for="input-key-output">Key Ceasar:</label>
+                                <input nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="label" for="input-key-output">Key Rail Fence:</label>
+                                <input nbInput fullWidth formControlName="key_rail" autocomplete="off" style="text-align: center;" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchDefault>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="label" for="input-key-output">Key:</label>
+                                <input nbInput fullWidth formControlName="key" autocomplete="off" style="text-align: center;" readonly>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">

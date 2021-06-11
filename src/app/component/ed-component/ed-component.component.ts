@@ -54,12 +54,14 @@ export class EdComponentComponent implements OnInit {
         encryptionType: ['', Validators.required],
         has_key: '',
         key: '',
+        key_rail: '',
       }),
       form3: this.fb.group({
         name: '',
         show_text: '',
         text: '',
-        key: ''
+        key: '',
+        key_rail: '',
       })
     });
 
@@ -96,12 +98,14 @@ export class EdComponentComponent implements OnInit {
           encryptionType: this.encryptionType,
           has_key: true,
           key: '',
+          key_rail: '',
         },
         form3: {
           name: 'CIPHER TEXT',
           show_text: true,
           text: '',
-          key: ''
+          key: '',
+          key_rail: '',
         }
       });
     } else {
@@ -117,12 +121,14 @@ export class EdComponentComponent implements OnInit {
           encryptionType: this.encryptionType,
           has_key: true,
           key: '',
+          key_rail: '',
         },
         form3: {
           name: 'PLAIN TEXT',
           show_text: true,
           text: '',
-          key: ''
+          key: '',
+          key_rail: '',
         }
       });
     }
@@ -173,7 +179,8 @@ export class EdComponentComponent implements OnInit {
         this.dataOutput = this.encryptService.encryptRailFence(key, this.dataInput);
         break;
       case 3: //Combine
-        this.dataOutput = this.encryptService.encryptCombine(key, this.dataInput);
+        const key_rail = this.form.get('form2').get('key_rail').value;
+        this.dataOutput = this.encryptService.encryptCombine(key, key_rail, this.dataInput);
     }
     this.form.get('form3').get('text').setValue(this.dataOutput);
     this.form.get('form3').get('key').setValue(this.form.get('form2').get('key').value);
@@ -191,7 +198,8 @@ export class EdComponentComponent implements OnInit {
           this.dataOutput = this.decryptService.decryptRailFence(key, this.dataInput);
           break;
         case 3: //Combine
-          this.dataOutput = this.decryptService.decryptCombine(key, this.dataInput);
+          const key_rail = this.form.get('form2').get('key_rail').value;
+          this.dataOutput = this.decryptService.decryptCombine(key, key_rail, this.dataInput);
       }
       this.form.get('form3').get('key').setValue(this.form.get('form2').get('key').value);
       this.form.get('form3').get('text').setValue(this.dataOutput);
@@ -210,6 +218,7 @@ export class EdComponentComponent implements OnInit {
       this.dataOutput = result.plainText;
       this.form.get('form3').get('text').setValue(result.plainText);
       this.form.get('form3').get('key').setValue(result.key);
+      this.form.get('form3').get('key_rail').setValue(result.key_rail);
     }
   }
 
