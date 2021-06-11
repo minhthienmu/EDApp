@@ -131,6 +131,7 @@ export class EdComponentComponent implements OnInit {
           key_rail: '',
         }
       });
+      this.form.get('form2').get('has_key').setValue(false);
     }
   }
 
