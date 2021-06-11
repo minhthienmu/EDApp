@@ -62,10 +62,10 @@ export class EncryptService {
         return cipherText;
     }
 
-    encryptCombine(key: number, plaintext: string): string { //encryptCeasar => encryptRailFence
+    encryptCombine(key: number, key_rail: number, plaintext: string): string { //encryptCeasar => encryptRailFence
         let cipherText = "";
 
-        cipherText = this.encryptRailFence(key, this.encryptCeasar(key, plaintext));
+        cipherText = this.encryptRailFence(key_rail, this.encryptCeasar(key, plaintext));
 
         return cipherText;
     }
